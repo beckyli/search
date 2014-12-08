@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <style>
+       
+       
+       .content   { border:0px solid gray; float:left; margin: 10px; }
+    .content .header 		{ background-color: #ffee99; font-size: 18px; height:30px; -moz-border-radius:5px;  font: bold 18px Cambria ; margin: 0 -5px 10px -5px; padding: 6px 0 0 10px; }
+
+         a 
+      { 
+        font-size: 16px;
+        font-weight: bolder;
+        text-decoration: none;
+       }
+     #textbox1
+    {
+    height:35px;
+    font-size:16pt;
+    }  
+    #search
+    {
+    height:30px;
+    font-size:14pt;
+    } 
+
+    .url
+    {
+      font-size: 12px;
+      font-weight: normal;
+    }  
+
+    .intro
+    {
+      font-size: 14px;
+      font-weight: bold;
+    } 
+
+
+  </style>  
+
+  <script>
+  $(document).ready(function()
+  {
+       
+      $('#search-content').hide();     
+      $( "#textbox1" ).focus();
+      $( "#search" ).click(function() 
+      {  
+          $("#search-content").show();
+            $("#results_1").empty();    
+              $("#results_21").empty();    
+                $("#results_31").empty();    
+              
+          var keyword=$( "#textbox1" ).val();
+          $.getJSON("http://www.faroo.com/api?q=" + keyword + "&start=1&l=en&src=web&f=json&key=Tf9@y14AptkXcnmoTCxyt@UDFCs_",function(data)
+          {        
+         
+             $.each(data.results, function(i,item)
+               {                  
+                     $("#results_1").append("<a href =" +  item.url + " target='_blank'>"+  item.title +  "</a> <br />")
+                     $("#results_1").append("<a href =" +  item.url + " target='_blank'>" + "<span class=url>"+ item.url + "</span> </a> <br /> ")
+                     $("#results_1").append("<span class=intro>" + item.kwic + "</span> <br />")
+                     $("#results_1").append("<br />")
+           
+           
+              });
+                                       
+          });
+          
+          $.getJSON("http://www.faroo.com/api?q=" + keyword + "&start=1&l=en&src=news&f=json&key=Tf9@y14AptkXcnmoTCxyt@UDFCs_",function(data)
+          {        
+         
+         $.each(data.results, function(i,item)
+               {                  
+                     $("#results_21").append("<a href =" +  item.url + " target='_blank'>"+  item.title +  "</a> <br />")
+                     $("#results_21").append("<a href =" +  item.url + " target='_blank'>" + "<span class=url>"+ item.url + "</span> </a> <br /> ")
+                     $("#results_21").append("<span class=intro>" + item.kwic + "</span> <br />")
+                     $("#results_21").append("<br />")
+           
+              });
+                                       
+          });
+
+          $.getJSON("http://www.faroo.com/api?q=&start=1&length=10&l=en&src=news&f=json&key=Tf9@y14AptkXcnmoTCxyt@UDFCs_",function(data)
+          {        
+         
+         $.each(data.results, function(i,item)
+               {                  
+                     $("#results_31").append("<p><a href =" +  item.url + " target='_blank'>"+  item.title +  "</a></p>")
+                     //$("#results3_31").append("<br />")
+           
+              });
+                                       
+          });                                 
+        
+          
+       });
+      
+  });      
+   
+  </script>
+
+</head>
+<body>
+  
+ <div><center>
+  <input type="textbox" id="textbox1" size="45" width="48" height="48"></input>  <Button id="search">Search</Button>
+ </center></div> 
+
+ 
+
+  <div id="search-content">
+      	<div class="content" id="results" style="width:46%; display:inline">
+        		<div class="header">Web</div>
+            <div id="results_1"></div>
+            
+        		<div class="data" id="web-content"></div>
+      	</div>
+
+      	<div class="content" id="results2" style="width:46%; display:inline">
+        		<div class="header">News</div>
+            <div id="results_21"></div>
+            
+        		<div class="data" id="news-content"></div>
+      	</div>
+        <div style="clear: both;" />
+      	<div class="content" id="results3" style="width:46%">
+                 <div class="header">Trending Topics</div>
+      	  	<div id="results_31"></div>
+       
+      		  <div class="data" id="image-content"></div>
+      	</div>
+</div>
+
+</html>
